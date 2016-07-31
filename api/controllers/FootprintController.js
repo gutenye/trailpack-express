@@ -41,7 +41,15 @@ module.exports = class FootprintController extends Controller {
       response = FootprintService.find(req.params.model, id, options)
     }
     else {
-      response = FootprintService.find(req.params.model, criteria, options)
+      if (req.query.page) {
+        criteria.offset = (parseInt(req.query.page)-1) * criteria.limit
+      }
+      response = FootprintService.find(req.params.model, criteria, options).then(elements => {
+        return this.app.orm[req.params.model].count().then(count => {
+          res.append("pageCount", Math.floor(count / criteria.limit) + 1)
+          return elements
+        })
+      })
     }
 
     response.then(elements => {
@@ -57,7 +65,6 @@ module.exports = class FootprintController extends Controller {
         res.boom.wrap(error)
       }
     })
-
   }
 
   update(req, res) {
