@@ -32,20 +32,19 @@ module.exports = class FootprintController extends Controller {
   }
 
   find(req, res) {
-    const FootprintService = this.app.services.FootprintService
-    const options = this.app.packs.express.getOptionsFromQuery(req.query)
-    const criteria = this.app.packs.express.getCriteriaFromQuery(req.query)
-    const id = req.params.id
+    var {services: {FootprintService}} = this.app
+    var {params: {id, model}, query} = req
+    var Model = this.app.orm[model] || this.app.packs.waterline.orm.collections[model]
+    var options = this.app.packs.express.getOptionsFromQuery(query)
+    var criteria = this.app.packs.express.getCriteriaFromQuery(query)
+
     let response
     if (id) {
-      response = FootprintService.find(req.params.model, id, options)
+      response = FootprintService.find(model, id, options)
     }
     else {
-      if (req.query.page) {
-        criteria.offset = (parseInt(req.query.page)-1) * criteria.limit
-      }
-      response = FootprintService.find(req.params.model, criteria, options).then(elements => {
-        return this.app.orm[req.params.model].count().then(count => {
+      response = FootprintService.find(model, criteria, options).then(elements => {
+        return Model.count().then(count => {
           res.append("pageCount", Math.floor(count / criteria.limit) + 1)
           return elements
         })

@@ -17,6 +17,23 @@ const WebServerTrailpack = require('trailpack-webserver')
  */
 module.exports = class Express extends WebServerTrailpack {
 
+  getOptionsFromQuery ({populate}) {
+    return {populate}
+  }
+
+  /**
+   * Extract the criteria from the query
+   */
+  // TODO: defaultLimit
+  getCriteriaFromQuery ({page, perPage}) {
+    page = page ? parseInt(page) - 1 : 0
+    //var defaultLimit = _.get(this.config, 'footprints.models.options.defaultLimit')
+    //var limit = perPage ? parseInt(perPage) : defaultLimit
+    var limit = perPage ? parseInt(perPage) : 30
+    var skip = page * limit
+    return {limit, skip}
+  }
+
   /**
    * Ensure that config/web is valid, and that no other competing web
    * server trailpacks are installed (e.g. express)
