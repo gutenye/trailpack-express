@@ -54,6 +54,7 @@ module.exports = class FootprintController extends Controller {
     response.then(elements => {
       res.status(elements ? 200 : 404).json(elements || {})
     }).catch(error => {
+      //pd(error)
       if (error.code == 'E_VALIDATION') {
         res.status(400).json(error)
       }
