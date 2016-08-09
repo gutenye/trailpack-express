@@ -30,7 +30,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.find
    */
   find(req, res, next) {
-    pd(9, this.app.packs)
     const criteria = this.app.packs.express.getCriteriaFromQuery(req.query)
 
     if (req.params.id && !_.isEmpty(criteria)) {

@@ -17,7 +17,6 @@ const WebServerTrailpack = require('trailpack-webserver')
  */
 module.exports = class Express extends WebServerTrailpack {
   getOptionsFromQuery ({populate}) {
-    pd(1)
     return {populate}
   }
 
@@ -25,11 +24,11 @@ module.exports = class Express extends WebServerTrailpack {
    * Extract the criteria from the query
    */
   // TODO: defaultLimit
-  getCriteriaFromQuery ({page, perPage}) {
+  getCriteriaFromQuery ({page, limit}) {
     page = page ? parseInt(page) - 1 : 0
     //var defaultLimit = _.get(this.config, 'footprints.models.options.defaultLimit')
-    //var limit = perPage ? parseInt(perPage) : defaultLimit
-    var limit = perPage ? parseInt(perPage) : 30
+    //var limit = limit ? parseInt(limit) : defaultLimit
+    limit = limit ? parseInt(limit) : 30
     var skip = page * limit
     return {limit, skip}
   }

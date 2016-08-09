@@ -35,8 +35,6 @@ module.exports = class FootprintController extends Controller {
     var {services: {FootprintService}} = this.app
     var {params: {id, model}, query} = req
     var Model = this.app.orm[model] || this.app.packs.waterline.orm.collections[model]
-    pd(1)
-    pd(0, this.app.packs)
     var options = this.app.packs.express.getOptionsFromQuery(query)
     var criteria = this.app.packs.express.getCriteriaFromQuery(query)
 
