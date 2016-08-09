@@ -16,8 +16,8 @@ const WebServerTrailpack = require('trailpack-webserver')
  * Bind application routes to Express.js (from trailpack-router)
  */
 module.exports = class Express extends WebServerTrailpack {
-
   getOptionsFromQuery ({populate}) {
+    pd(1)
     return {populate}
   }
 
