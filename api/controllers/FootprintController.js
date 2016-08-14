@@ -37,6 +37,7 @@ module.exports = class FootprintController extends Controller {
     var Model = this.app.orm[model] || this.app.packs.waterline.orm.collections[model]
     var options = this.app.packs.express.getOptionsFromQuery(query)
     var criteria = this.app.packs.express.getCriteriaFromQuery(query)
+    var countCriteria = Object.assign({}, criteria, {limit: null, count: true})
 
     let response
     if (id) {
@@ -44,7 +45,7 @@ module.exports = class FootprintController extends Controller {
     }
     else {
       response = FootprintService.find(model, criteria, options).then(elements => {
-        return Model.count().then(count => {
+        return Model.count(criteria).then(count => {
           res.append("pageCount", Math.floor(count / criteria.limit) + 1)
           return elements
         })

@@ -18,10 +18,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.create
    */
   create(req, res, next) {
-    if (!_.isPlainObject(req.body) && !_.isArray(req.body)) {
-      return res.boom.preconditionFailed(this.__('errors.footprints.body'))
-    }
-
     next()
   }
 
@@ -30,12 +26,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.find
    */
   find(req, res, next) {
-    const criteria = this.app.packs.express.getCriteriaFromQuery(req.query)
-
-    if (req.params.id && !_.isEmpty(criteria)) {
-      return res.boom.preconditionFailed(this.__('errors.footprints.find.mutex'))
-    }
-
     next()
   }
 
@@ -44,10 +34,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.update
    */
   update(req, res, next) {
-    if (req.params.id && !_.isEmpty(req.query)) {
-      return res.boom.preconditionFailed(this.__('errors.footprints.update.mutex'))
-    }
-
     next()
   }
 
@@ -68,10 +54,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.createAssociation
    */
   createAssociation(req, res, next) {
-    if (!_.isPlainObject(req.body)) {
-      return res.boom.preconditionFailed(this.__('errors.footprints.body'))
-    }
-
     next()
   }
 
@@ -80,11 +62,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.findAssociation
    */
   findAssociation(req, res, next) {
-    const criteria = this.app.packs.express.getCriteriaFromQuery(req.query)
-    if (req.params.childId && !_.isEmpty(criteria)) {
-      return res.boom.preconditionFailed(this.__('errors.footprints.find.mutex'))
-    }
-
     next()
   }
 
@@ -93,10 +70,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.updateAssociation
    */
   updateAssociation(req, res, next) {
-    if (req.params.childId && !_.isEmpty(req.query)) {
-      return res.boom.preconditionFailed(this.__('errors.footprints.update.mutex'))
-    }
-
     next()
   }
 
@@ -105,10 +78,6 @@ module.exports = class Footprint extends Policy {
    * @see FootprintController.destroyAssociation
    */
   destroyAssociation(req, res, next) {
-    if (req.params.childId && !_.isEmpty(req.query)) {
-      return res.boom.preconditionFailed(this.__('errors.footprints.destroy.mutex'))
-    }
-
     next()
   }
 }
