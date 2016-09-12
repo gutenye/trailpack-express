@@ -24,14 +24,14 @@ module.exports = class Express extends WebServerTrailpack {
    * Extract the criteria from the query
    */
   // TODO: defaultLimit
-  getCriteriaFromQuery ({page, limit, where, getAll}) {
+  getCriteriaFromQuery ({page, limit, where, getAll, sort}) {
     page = page ? parseInt(page) - 1 : 0
     //var defaultLimit = _.get(this.config, 'footprints.models.options.defaultLimit')
     //var limit = limit ? parseInt(limit) : defaultLimit
     limit = limit ? parseInt(limit) : 30
     var skip = page * limit
     where = where ? JSON.parse(where) : null
-    return {where, getAll, skip, limit}
+    return {where, getAll, skip, limit, sort}
   }
 
   /**
